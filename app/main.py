@@ -1,4 +1,5 @@
-from fastapi import FastAPI, APIRouter as global_router
+from fastapi import FastAPI, APIRouter
+from app.api.routers.routes import router as global_router
 from starlette.middleware.cors import CORSMiddleware
 import starlette.responses as _responses
 from app.core.settings.config import Settings
@@ -18,7 +19,7 @@ def create_application_instance() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    # application.include_router(global_router, prefix=settings.API_URL_PREFIX)
+    application.include_router(global_router, prefix=settings.API_URL_PREFIX)
     return application
 
 
