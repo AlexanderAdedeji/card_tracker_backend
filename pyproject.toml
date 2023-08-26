@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "card-tracking-portal"
+version = "0.1.0"
+description = "Track LagId Card Api"
+authors = ["AlexAdedeji <alex.adedeji@identikosolutions.com>"]
+readme = "README.md"
+packages = [{include = "card_tracking_portal"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.103.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
