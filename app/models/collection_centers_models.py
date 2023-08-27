@@ -6,7 +6,6 @@ class CollectionCentre(Base):
     """
     Represents collection centres associated with local government codes.
     """
-
     __tablename__ = "collection_centres"
 
     id = Column(Integer, primary_key=True, index=True)

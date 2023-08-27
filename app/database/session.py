@@ -16,6 +16,6 @@ def create_database_engine():
 
 engine = create_database_engine()
 def create_session():
-    return sessionmaker(autocommit=False, autoflush=False, bind=engine)()
+    return sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 SessionLocal = create_session()

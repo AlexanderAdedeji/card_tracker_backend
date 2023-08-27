@@ -12,7 +12,6 @@ origins = ["*"]
 settings= Settings()
 
 
-
 def create_application_instance() -> FastAPI:
     application = FastAPI(title=settings.PROJECT_NAME)
     application.add_middleware(

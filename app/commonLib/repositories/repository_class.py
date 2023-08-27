@@ -2,7 +2,7 @@ from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, Union
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
-from commonLib.models.base_class import Base as BaseDeclarativeClass
+from app.commonLib.models.base_class import Base as BaseDeclarativeClass
 from sqlalchemy.exc import IntegrityError
 
 ModelType = TypeVar("ModelType", bound=BaseDeclarativeClass)
