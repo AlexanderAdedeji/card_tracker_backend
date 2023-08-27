@@ -11,7 +11,7 @@ class Base():
     created_at = Column(DateTime(timezone=True),
                        server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    __name__: DateTime
+    __name__: str
 
     @declared_attr
     def __tablename__(cls) -> str:
