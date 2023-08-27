@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     PROJECT_NAME: str
     API_URL_PREFIX:str
     DEBUG:bool
+    DEVELOPMENT_DATABASE_URL:str
+    PRODUCTION_DATABASE_URL:str
 
 
 

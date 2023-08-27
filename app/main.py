@@ -1,13 +1,16 @@
 from fastapi import FastAPI, APIRouter
 from app.api.routers.routes import router as global_router
+from app.database.session import create_session, engine
 from starlette.middleware.cors import CORSMiddleware
 import starlette.responses as _responses
 from app.core.settings.config import Settings
+from app.database.base import Base
 
-
+Base.metadata.create_all(bind=engine)
 origins = ["*"]
 
 settings= Settings()
+
 
 
 def create_application_instance() -> FastAPI:

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from app.commonLib.models import Base
+from app.commonLib.models.base_class import Base
 
 class LocalGovernment(Base):
     """
