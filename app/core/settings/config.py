@@ -17,7 +17,8 @@ class Settings(BaseSettings):
     DEBUG:bool
     DEVELOPMENT_DATABASE_URL:str
     PRODUCTION_DATABASE_URL:str
-
+    LASRRA_IDENTITY_API: str
+    LASRRA_CARD_TRACKING_API: str
 
 
 

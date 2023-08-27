@@ -12,6 +12,7 @@ fastapi = {extras = ["all"], version = "^0.103.0"}
 sqlalchemy = "^2.0.20"
 psycopg2 = "^2.9.7"
 openpyxl = "^3.1.2"
+requests = "^2.31.0"
 
 
 [build-system]
