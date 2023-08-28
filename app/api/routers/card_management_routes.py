@@ -5,9 +5,10 @@ from starlette.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from sqlalchemy.orm import Session
-from app.commonLib.lasrra_api import LasrraAPI
+from app.api.dependencies.lasrra_api import LasrraAPI
 from app.models.collection_centers_models import CollectionCentre
 from app.models.local_goverment_models import LocalGovernment
+from app.repositories.location_repo import LocalGovernmentRepositories
 from app.repositories.search_log_repo import search_log_repo
 from app.api.dependencies.db import get_db
 from app.schemas.card_management_schema import (
@@ -51,26 +52,58 @@ async def visitor_get_status(
     search_log_repo.create(db, obj_in=search_in)
 
     card_status_response = lasrra_api.track_card_status(lasrra_id)
-    lga = None
+
+
+    local_government = None
     collection_center = None
+    try:
+        db_local_government = (
+                db.query(LocalGovernment)
+                .filter(LocalGovernment.code == card_status_response["lgaCode"])
+                .first()
+            )
+            
+        if db_local_government:
+            print(db_local_government.name)
+            local_government = db_local_government.name
+    except Exception as error:
+        print(error)
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred",
+        )  
+    try :         
+        
+        db_collection_center = (
+                db.query(CollectionCentre.name)
+                .filter(
+                    CollectionCentre.code == card_status_response["locationCode"],
+                    CollectionCentre.local_govt_code == card_status_response["lgaCode"],
+                )
+                .first()
+            )
+        if db_collection_center:
+            collection_center = db_collection_center.name
+        # db_lga_and_collection_center = (
+        #     db.query(LocalGovernment.name, CollectionCentre.name)
+        #     .join(
+        #         CollectionCentre,
+        #         LocalGovernment.code == CollectionCentre.local_govt_code,
+        #     )
+        #     .filter(
+        #         LocalGovernment.code == card_status_response["lgaCode"],
+        #         CollectionCentre.code == card_status_response["locationCode"],
+        #     )
+        #     .first()
+        # )
 
-    db_lga, db_collection_center = (
-        db.query(LocalGovernment.name, CollectionCentre.name)
-        .join(
-            CollectionCentre, LocalGovernment.code == CollectionCentre.local_govt_code
+    except Exception as error:
+        print(error)
+        raise HTTPException(
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred",
         )
-        .filter(
-            LocalGovernment.code == card_status_response["lgaCode"],
-            CollectionCentre.code == card_status_response["locationCode"],
-        )
-        .first()
-    )
 
-    if db_lga:
-        lga = db_lga
-
-    if db_collection_center:
-        collection_center = db_collection_center
 
     return CardInfo(
         first_name=card_status_response.get("firstName", "N/A"),
@@ -79,8 +112,8 @@ async def visitor_get_status(
         replacement_id=card_status_response.get("replacementId", "N/A"),
         registration_status=card_status_response.get("registrationStatus", "N/A"),
         card_status=check_if_data(card_status_response.get("cardStatus", "N/A")),
-        location=check_if_data(collection_center),
-        lga=check_if_data(lga),
+        collection_center=check_if_data(collection_center),
+        local_government=check_if_data(local_government),
         isDelivered=check_card_is_delivered(
             card_status_response.get("cardStatus", "N/A")
         ),
@@ -97,7 +130,7 @@ def relocate_my_card(relocate_card: RelocateCard, db: Session = Depends(get_db))
 
     if not source_local_government:
         raise HTTPException(
-            status_code=HTTP_404_NOT_FOUND, detail="Source LGA does not exist"
+            status_code=HTTP_404_NOT_FOUND, detail="Source Local Government does not exist"
         )
 
     source_collection_center = (
@@ -120,7 +153,7 @@ def relocate_my_card(relocate_card: RelocateCard, db: Session = Depends(get_db))
 
     if not destination_local_government:
         raise HTTPException(
-            status_code=HTTP_404_NOT_FOUND, detail="Destination LGA does not exist"
+            status_code=HTTP_404_NOT_FOUND, detail="Destination Local Government does not exist"
         )
 
     destination_collection_center = (
@@ -144,6 +177,7 @@ def relocate_my_card(relocate_card: RelocateCard, db: Session = Depends(get_db))
     }
 
     relocate_result = lasrra_api.card_relocation(relocate_card_data)
+
     return relocate_result
 
 

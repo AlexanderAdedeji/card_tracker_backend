@@ -11,8 +11,8 @@ class CardInfo(Card):
     registration_status:str
     replacement_id:Optional[str]
     card_status: str
-    location: str
-    lga:str
+    collection_center: str
+    local_government:str
     isDelivered:bool
 
 class OTPRequest(Card):
