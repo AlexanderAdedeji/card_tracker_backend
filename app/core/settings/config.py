@@ -19,6 +19,14 @@ class Settings(BaseSettings):
     PRODUCTION_DATABASE_URL:str
     LASRRA_IDENTITY_API: str
     LASRRA_CARD_TRACKING_API: str
+    SECRET_KEY:str
+    RESET_TOKEN_EXPIRE_MINUTES:int
+    JWT_EXPIRE_MINUTES:int
+    JWT_ALGORITHM:str
+    JWT_TOKEN_PREFIX:str
+    HEADER_KEY:str
+    ADMIN_USER:str
+    REGULAR_USER:str
 
 
 

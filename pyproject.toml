@@ -13,6 +13,10 @@ sqlalchemy = "^2.0.20"
 psycopg2 = "^2.9.7"
 openpyxl = "^3.1.2"
 requests = "^2.31.0"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+uuid = "^1.30"
+pyjwt = "^2.8.0"
+loguru = "^0.7.0"
 
 
 [build-system]
