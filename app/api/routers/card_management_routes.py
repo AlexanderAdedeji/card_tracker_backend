@@ -53,16 +53,15 @@ async def visitor_get_status(
 
     card_status_response = lasrra_api.track_card_status(lasrra_id)
 
-
     local_government = None
     collection_center = None
     try:
         db_local_government = (
-                db.query(LocalGovernment)
-                .filter(LocalGovernment.code == card_status_response["lgaCode"])
-                .first()
-            )
-            
+            db.query(LocalGovernment)
+            .filter(LocalGovernment.code == card_status_response["lgaCode"])
+            .first()
+        )
+
         if db_local_government:
             print(db_local_government.name)
             local_government = db_local_government.name
@@ -71,17 +70,16 @@ async def visitor_get_status(
         raise HTTPException(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred",
-        )  
-    try :         
-        
+        )
+    try:
         db_collection_center = (
-                db.query(CollectionCentre.name)
-                .filter(
-                    CollectionCentre.code == card_status_response["locationCode"],
-                    CollectionCentre.local_govt_code == card_status_response["lgaCode"],
-                )
-                .first()
+            db.query(CollectionCentre.name)
+            .filter(
+                CollectionCentre.code == card_status_response["locationCode"],
+                CollectionCentre.local_govt_code == card_status_response["lgaCode"],
             )
+            .first()
+        )
         if db_collection_center:
             collection_center = db_collection_center.name
         # db_lga_and_collection_center = (
@@ -104,7 +102,6 @@ async def visitor_get_status(
             detail="An error occurred",
         )
 
-
     return CardInfo(
         first_name=card_status_response.get("firstName", "N/A"),
         last_name=card_status_response.get("surname", "N/A"),
@@ -117,6 +114,9 @@ async def visitor_get_status(
         isDelivered=check_card_is_delivered(
             card_status_response.get("cardStatus", "N/A")
         ),
+        requires_validation=card_status_response.get("requiresValidation", False),
+        requires_recapture=card_status_response.get("requiresRecapture", False),
+        has_data_errors=card_status_response.get("hasDataErrors", False),
     )
 
 
@@ -130,7 +130,8 @@ def relocate_my_card(relocate_card: RelocateCard, db: Session = Depends(get_db))
 
     if not source_local_government:
         raise HTTPException(
-            status_code=HTTP_404_NOT_FOUND, detail="Source Local Government does not exist"
+            status_code=HTTP_404_NOT_FOUND,
+            detail="Source Local Government does not exist",
         )
 
     source_collection_center = (
@@ -153,7 +154,8 @@ def relocate_my_card(relocate_card: RelocateCard, db: Session = Depends(get_db))
 
     if not destination_local_government:
         raise HTTPException(
-            status_code=HTTP_404_NOT_FOUND, detail="Destination Local Government does not exist"
+            status_code=HTTP_404_NOT_FOUND,
+            detail="Destination Local Government does not exist",
         )
 
     destination_collection_center = (

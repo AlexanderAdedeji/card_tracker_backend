@@ -14,6 +14,9 @@ class CardInfo(Card):
     collection_center: str
     local_government:str
     isDelivered:bool
+    requires_validation:bool
+    requires_recapture:bool
+    has_data_errors:bool
 
 class OTPRequest(Card):
     channel: str
