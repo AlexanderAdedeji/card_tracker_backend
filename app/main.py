@@ -7,7 +7,7 @@ from app.core.settings.config import Settings
 from app.database.base import Base
 
 Base.metadata.create_all(bind=engine)
-origins = ["https://card-tracker.vercel.app/", "https://card-tracker.vercel.app/"]
+origins = ["https://card-tracker.vercel.app/", "https://card-tracker.vercel.app/","https://lasrra-card-tracker.netlify.app/"]
 
 settings = Settings()
 
