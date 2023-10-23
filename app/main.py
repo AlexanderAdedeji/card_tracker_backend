@@ -7,7 +7,7 @@ from app.core.settings.config import Settings
 from app.database.base import Base
 
 Base.metadata.create_all(bind=engine)
-origins = ["*"]
+origins = ["https://card-tracker-4g52bekgo-alexanders-projects-def33fbf.vercel.app/"]
 
 settings= Settings()
 
