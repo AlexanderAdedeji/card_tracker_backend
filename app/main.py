@@ -7,9 +7,9 @@ from app.core.settings.config import Settings
 from app.database.base import Base
 
 Base.metadata.create_all(bind=engine)
-origins = ["https://card-tracker-4g52bekgo-alexanders-projects-def33fbf.vercel.app/"]
+origins = ["https://card-tracker.vercel.app/", "https://card-tracker.vercel.app/"]
 
-settings= Settings()
+settings = Settings()
 
 
 def create_application_instance() -> FastAPI:
