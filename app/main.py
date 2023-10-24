@@ -7,7 +7,13 @@ from app.core.settings.config import Settings
 from app.database.base import Base
 
 Base.metadata.create_all(bind=engine)
-origins = ["https://card-tracker.vercel.app/", "https://card-tracker.vercel.app/","https://lasrra-card-tracker.netlify.app/"]
+origins = [
+    "https://card-tracker.vercel.app/",
+    "https://card-tracker.vercel.app/",
+    "https://lasrra-card-tracker.netlify.app/",
+]
+methods =[ "POST", "GET", "PUT","OPTION"]
+
 
 settings = Settings()
 
@@ -18,8 +24,9 @@ def create_application_instance() -> FastAPI:
         CORSMiddleware,
         allow_origins=origins,
         allow_credentials=True,
-        allow_methods=["*"],
+        allow_methods=methods,
         allow_headers=["*"],
+        expose_headers=["*"]
     )
     application.include_router(global_router, prefix=settings.API_URL_PREFIX)
     return application
