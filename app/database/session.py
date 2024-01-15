@@ -7,7 +7,7 @@ DATABASE_URL = (
     #  "sqlite:///./sql_app.db"
     f"postgresql+psycopg2://"
     f"identikoPostgresSqlDevAdmin@identiko-postgres-dev-server:"
-    f"hd1KHyW7FFJGkpQ53t31@"
+    f"Cheaters2026."
     f"identiko-postgres-dev-server.postgres.database.azure.com:"
     f"5432/Eaffidavit"
 )
